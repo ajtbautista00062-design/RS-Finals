@@ -1,0 +1,7 @@
+# Whitelist: only the deployable app files are tracked.
+# Lecture PDFs, the local source folder (app-src) and tool settings are never committed.
+*
+!.gitignore
+!README.md
+!index.html
+!remote-sensing-finals-reviewer.html
