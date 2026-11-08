@@ -1,0 +1,79 @@
+/* Reading, practice, and supporting tools share the same spacing and states. */
+.lesson-layout { gap: 32px; }
+.toc { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; scrollbar-width: thin; }
+.toc h3 { font-size: .75rem; letter-spacing: .1em; margin: 16px 8px 8px; }
+.toc a { padding: 10px; margin-block: 2px; font-size: .8rem; line-height: 1.5; }
+.lesson { line-height: 1.85; }
+.lesson h2 { margin-top: 32px; }
+.lesson .summary { padding: 20px 24px; font-size: 1rem; }
+.term { padding: 16px 20px; }
+.term-list { gap: 12px; }
+.note, .formula { border-radius: 12px; }
+.table-wrap { border-radius: 12px; }
+th { font-size: .78rem; letter-spacing: .015em; }
+td { font-size: .9rem; }
+.qcard { border-radius: 20px; padding: clamp(20px, 3vw, 36px); box-shadow: var(--shadow); }
+.qcard .prompt { font-size: 1.2rem; line-height: 1.7; margin-block: 24px; }
+.qcard .qmeta { gap: 8px; }
+.opt { border-radius: 12px; padding: 16px; transition: background-color .18s, border-color .18s; }
+.feedback { border-radius: 12px; padding: 20px; }
+.answer-row input { min-height: 50px; }
+input[type="text"], input[type="number"], input[type="date"], select, textarea { border-radius: 9px; }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline-color: var(--primary); }
+fieldset { padding: 16px; background: var(--surface); }
+legend { font-size: .8rem; }
+.filters { gap: 16px; align-items: stretch; }
+.filters .check { display: flex; align-items: flex-start; padding-block: 8px; min-height: 44px; font-size: .85rem; line-height: 1.5; }
+.filters .check input { flex: none; margin-top: 2px; }
+details.more > summary { min-height: 44px; padding-block: 10px; }
+.seg { border-radius: 10px; }
+.seg button { min-height: 44px; font-size: .8rem; }
+.tabs { gap: 8px; }
+.tab { font-size: .875rem; }
+.flashcard { min-height: 320px; padding: 32px; border-radius: 20px; background: linear-gradient(145deg, var(--surface), var(--primary-soft)); }
+.flashcard .side-label { color: var(--primary); font-size: .75rem; letter-spacing: .14em; }
+.flashcard .face { max-width: 54ch; margin-inline: auto; line-height: 1.7; }
+.flashcard .face.term { font-size: 1.8rem; letter-spacing: -.04em; }
+.ratings { gap: 12px; }
+.ratings .btn { min-height: 64px; }
+.recall-card { padding: 36px; box-shadow: var(--shadow); }
+.recall-card .prompt { line-height: 1.75; }
+.recall-card .model { padding: 24px; }
+.palette { padding: 20px; }
+.palette .cells { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 8px; }
+.palette .cell { height: 44px; }
+.cal-day { min-height: 92px; padding: 10px; transition: background-color .18s, border-color .18s; }
+.cal-day.today { box-shadow: inset 0 0 0 1px var(--accent); }
+.task { padding: 12px 0; }
+.task .check { min-height: 44px; }
+.chip { font-size: .75rem; padding: 3px 8px; }
+.src-ref { line-height: 1.8; }
+button, a, input, select, textarea, summary { touch-action: manipulation; }
+:focus-visible { outline-width: 3px; outline-offset: 3px; }
+.btn[disabled]:hover { border-color: var(--border-strong); }
+/* Long formulas, saved answers and large text must not widen the viewport. */
+.card, .field, .stat, .hero-copy, .hero-aside { min-width: 0; }
+.prompt, .face, .canon, .term, .lesson, .page-head, .lec-card h3 { overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .qcard .prompt { font-size: 1.08rem; }
+  .flashcard { padding: 24px; min-height: 280px; }
+  .recall-card { padding: 24px; }
+  .recall-card .model { padding: 16px; }
+  .filters { grid-template-columns: minmax(0, 1fr); }
+  .seg { display: flex; }
+  .seg button { flex: 1 1 100%; text-align: left; }
+  .seg button + button { border-left: 0; border-top: 1px solid var(--border); }
+  .cal-grid { gap: 4px; }
+  .cal-day { min-height: 64px; padding: 4px; }
+  .cal-day .marks { gap: 2px; }
+  .ratings { gap: 8px; }
+  .btn.sm, .check { min-height: 44px; }
+  .toc a { min-height: 44px; }
+  input[type="search"], select, textarea { font-size: 1rem; }
+}
+@media (prefers-contrast: more) { :root { --border: var(--border-strong); } .btn { border-width: 2px; } }
+@media print {
+  .hero, .flashcard { background: #fff !important; color: #000; }
+  .hero .muted, .hero .eyebrow { color: #333; }
+  .toc, .hero-aside, .hero-actions, .hero-secondary { display: none; }
+}

@@ -29,3 +29,9 @@ Open `remote-sensing-finals-reviewer.html` in any modern browser. Inside the app
 ## Your progress
 
 Progress, flashcard schedules, bookmarks, plans and settings are stored only in your browser (localStorage), separately for each site or file location. Use **Download → Progress backup (.json)** to move progress between devices and **Import progress backup** to restore it. A progress backup is not the app.
+
+## Edit and rebuild
+
+The reproducible source is in `app-src/`. Run `node app-src/build.mjs` from the repository root to validate the lesson bank, run the logic tests, and regenerate both identical HTML entry points. No package installation is required for the build or the offline app.
+
+Shared UI styles are in `app-src/styles.css`, with the visual refresh organized into `app-src/styles/shell.css`, `dashboard.css`, and `study.css`. Study content and progress logic remain separate in `content/` and `js/`. The interface supports light/dark themes, larger text, reduced motion, mobile navigation, and print output.

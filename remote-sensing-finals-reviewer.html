@@ -7,7 +7,7 @@
 <meta name="description" content="Offline, identification-first reviewer for Remote Sensing Lectures 9–13: image interpretation, information extraction, accuracy assessment, thermal and microwave remote sensing.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#2c6b64">
-<meta name="generator" content="UAV Recall build 2026-11-01">
+<meta name="generator" content="UAV Recall build 2026-11-08">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232c6b64'/%3E%3Cpath d='M14 46h36M18 52h28' stroke='%23e9d8b4' stroke-width='3' stroke-linecap='round' opacity='.7'/%3E%3Ccircle cx='17' cy='17' r='7' fill='none' stroke='%23fff' stroke-width='3'/%3E%3Ccircle cx='47' cy='17' r='7' fill='none' stroke='%23fff' stroke-width='3'/%3E%3Cpath d='M22 22l6 6M42 22l-6 6' stroke='%23fff' stroke-width='3'/%3E%3Crect x='26' y='26' width='12' height='10' rx='3' fill='%23fff'/%3E%3C/svg%3E">
 <script>
 // Apply saved theme/text size before first paint (storage may be unavailable; fall back silently).
@@ -475,6 +475,286 @@ body.reading .sidebar { display: none; } body.reading .layout { grid-template-co
   figure.fig, .formula, .note, table { break-inside: avoid; }
   a { color: #000; text-decoration: none; }
   .no-print { display: none !important; }
+}
+
+/* Shared visual system. System fonts and inline assets keep the reviewer offline. */
+:root {
+  --bg: #f3f6f5; --surface: #ffffff; --surface-2: #edf2f0; --surface-3: #e1e9e5;
+  --border: #dce5e0; --border-strong: #b8c9c0;
+  --text: #1d302a; --muted: #52665c; --faint: #5d7066;
+  --primary: #21634e; --primary-hover: #174c3b; --primary-soft: #e6f1eb; --primary-line: #9cc6ae;
+  --shadow: 0 2px 4px #183e2d03, 0 6px 22px #183e2d05;
+  --radius: 16px; --radius-sm: 10px; --side-w: 248px; --topbar-h: 76px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101b17; --surface: #182720; --surface-2: #21352b; --surface-3: #2c4236;
+    --border: #30483a; --border-strong: #526e5d; --text: #e8f0eb; --muted: #b1c5b8; --faint: #a1b9aa;
+    --primary: #9ed4b5; --primary-hover: #bde7cc; --primary-ink: #10251a;
+    --primary-soft: #233e2e; --primary-line: #547e62; --shadow: 0 4px 18px #00000015;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101b17; --surface: #182720; --surface-2: #21352b; --surface-3: #2c4236;
+  --border: #30483a; --border-strong: #526e5d; --text: #e8f0eb; --muted: #b1c5b8; --faint: #a1b9aa;
+  --primary: #9ed4b5; --primary-hover: #bde7cc; --primary-ink: #10251a;
+  --primary-soft: #233e2e; --primary-line: #547e62; --shadow: 0 4px 18px #00000015;
+}
+body { letter-spacing: -.012em; }
+h1, h2, h3 { letter-spacing: -.035em; }
+.topbar { padding-inline: 24px; gap: 20px; background: var(--surface); backdrop-filter: none; }
+.brand { width: calc(var(--side-w) - 24px); flex: none; gap: 10px; }
+.brand-text b { font-size: 1.08rem; letter-spacing: -.04em; }
+.brand-text span { margin-top: 5px; font-size: .75rem; letter-spacing: .01em; }
+.search-wrap { max-width: 470px; margin-left: 8px; }
+.search-wrap input[type="search"] { border-radius: 10px; border-color: transparent; min-height: 44px; font-size: .85rem; padding-left: 38px; }
+.search-wrap:focus-within input[type="search"] { border-color: var(--primary); }
+.search-wrap .s-ico { left: 12px; }
+.top-actions { gap: 8px; }
+.top-actions .btn.primary { background: var(--surface); color: var(--text); border-color: var(--border); }
+.sidebar { background: #183d30; border-right: 0; padding: 28px 14px; color: #e5efe8; }
+.nav-group { margin-bottom: 28px; }
+.nav-group h3 { color: #a9c4b4; font-size: .75rem; letter-spacing: .14em; margin: 0 14px 12px; }
+.nav-link { color: #dce9e0; padding: 12px 14px; margin-block: 3px; border-radius: 9px; gap: 12px; font-size: .85rem; min-height: 46px; line-height: 1.4; }
+.nav-link svg { color: #a9c4b4; width: 18px; height: 18px; }
+.nav-link:hover { color: #ffffff; background: #ffffff0d; }
+.nav-link[aria-current="page"] { color: #ffffff; background: #ffffff15; box-shadow: inset 3px 0 #b8d99c; font-weight: 650; }
+.nav-link[aria-current="page"] svg { color: #c3e2aa; }
+.sidebar-foot { background: #ffffff08; border: 1px solid #ffffff15; color: #b9d0c2; padding: 16px; font-size: .75rem; line-height: 1.7; }
+.sidebar-foot b { color: #e3eee7; }
+main { padding: 32px clamp(20px, 3.4vw, 56px) 64px; }
+.page { max-width: 1240px; }
+.page.narrow { max-width: 880px; }
+.page-head { margin-bottom: 24px; padding-bottom: 22px; border-bottom: 1px solid var(--border); }
+.page-head h1 { font-size: clamp(1.75rem, 2.5vw, 2rem); }
+.page-head p { font-size: .92rem; line-height: 1.75; margin-top: 10px; }
+.btn { border-radius: 9px; font-size: .875rem; font-weight: 600; transition: background-color .18s, border-color .18s, box-shadow .18s; }
+.btn.sm { min-height: 40px; }
+.btn.primary { box-shadow: 0 2px 3px #143e2510; }
+.btn:not(:disabled):hover { border-color: var(--primary-line); }
+.card { padding: 24px; }
+.grid > .card + .card, .kpi > .card + .card { margin-top: 0; }
+.card-head { margin-bottom: 16px; }
+.card-head h2 { font-size: 1.05rem; }
+.modal-back { background: #081c14a6; backdrop-filter: blur(4px); }
+.modal { padding: 28px; border-radius: 20px; }
+.menu { padding: 8px; box-shadow: 0 12px 40px #082d2326; }
+.menu button { min-height: 56px; }
+.search-results { box-shadow: 0 12px 40px #082d2326; }
+.sr-item { padding: 12px; }
+@media (max-width: 1100px) {
+  .topbar { gap: 12px; }
+  .brand { width: auto; }
+  .search-wrap { margin-left: 12px; }
+}
+@media (max-width: 900px) {
+  :root { --topbar-h: 68px; }
+  .topbar { padding-inline: 16px; gap: 10px; }
+  .sidebar { padding-top: 28px; height: 100dvh; }
+  main { padding: 24px 24px calc(var(--bottom-h) + env(safe-area-inset-bottom) + 32px); }
+  .bottombar { box-shadow: 0 -4px 24px #15372809; }
+  .bottombar a, .bottombar button { gap: 4px; }
+  .bottombar [aria-current="page"] { background: var(--primary-soft); box-shadow: inset 0 2px var(--primary); }
+}
+@media (max-width: 600px) {
+  :root { --topbar-h: 64px; }
+  .topbar { gap: 4px; padding-inline: 8px; }
+  .brand { gap: 6px; }
+  .brand > svg { width: 28px; height: 28px; }
+  .brand-text b { font-size: .9rem; }
+  .top-actions { gap: 0; }
+  .top-actions .btn { min-width: 44px; padding-inline: 10px; }
+  .search-wrap { margin-left: 4px; min-width: 36px; }
+  .search-wrap input[type="search"] { padding-right: 4px; }
+  main { padding-inline: 16px; }
+  .card { padding: 20px; }
+  .modal { padding: 20px; }
+  .page-head { gap: 16px; }
+}
+@media print { .sidebar, .topbar, .bottombar { display: none; } .layout { display: block; } main { padding: 0; } }
+
+/* Dashboard: a calm overview with one clear starting point. */
+.eyebrow { font-size: .75rem; font-weight: 750; letter-spacing: .14em; line-height: 1.6; color: var(--muted); margin: 0 0 6px; }
+.dashboard-heading { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-bottom: 24px; }
+.dashboard-welcome { font-size: 1.3rem; font-weight: 650; letter-spacing: -.035em; margin: 0; }
+.offline-pill { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); background: var(--primary-soft); border: 1px solid var(--border); border-radius: 30px; padding: 6px 10px; font-size: .75rem; white-space: nowrap; }
+.dashboard .hero {
+  --text: #f2f7ed; --muted: #d0e1d4; --faint: #bfd7c6;
+  --primary: #d5edbb; --primary-hover: #e3f5d0; --primary-ink: #193d2c; --primary-line: #678b70;
+  --surface: #234b38; --surface-2: #2d5943; --border: #5c7c64; --border-strong: #6d8d73;
+  --accent-soft: #ffffff0a; --accent-line: #ffffff26;
+  background: #204b38; color: var(--text); border: 0; border-radius: 20px;
+  padding: clamp(24px, 3vw, 42px); gap: 28px; grid-template-columns: minmax(0, 1fr) 160px;
+  box-shadow: 0 8px 24px #143d2910;
+}
+.dashboard .hero .topo { left: 40%; opacity: .3; color: #8ab78a; mask-image: linear-gradient(90deg, transparent, #000); }
+.hero h1 { font-size: clamp(1.8rem, 3.2vw, 2.75rem); font-weight: 650; line-height: 1.15; margin: 12px 0 18px; letter-spacing: -.045em; }
+.hero .eyebrow { color: #c3dda9; font-size: .75rem; }
+.hero-copy > p.muted { max-width: 53ch; font-size: .9rem; line-height: 1.75; margin-bottom: 24px; }
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-actions .btn { min-height: 46px; padding: 12px 16px; font-size: .8rem; }
+.hero-actions .btn:not(.primary) { background: #ffffff08; }
+.hero-actions .btn:not(.primary):hover { background: #ffffff16; }
+.hero-secondary { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 20px; }
+.hero-secondary a { display: inline-flex; align-items: center; gap: 8px; color: #d7e8dc; font-size: .78rem; text-underline-offset: 4px; min-height: 32px; }
+.hero-secondary a:hover { color: #ffffff; }
+.hero-aside { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.course-stamp { display: flex; align-items: center; flex-direction: column; gap: 20px; color: #c7debc; }
+.course-stamp > svg { width: 100px; height: 100px; padding: 25px; border: 1px solid #9bbc8655; border-radius: 50%; background: #ffffff06; outline: 1px dashed #9bbc8630; outline-offset: 12px; }
+.course-stamp span { font-family: var(--mono); font-size: .5rem; letter-spacing: .12em; text-align: center; }
+.hero-aside > .btn { font-size: .75rem; color: #e8efdf; background: #ffffff0a; min-height: 40px; }
+.countdown { width: 100%; color: #e8efdf; padding: 14px 10px; }
+.countdown b { color: #d5edbb; font-size: 2rem; margin-bottom: 4px; }
+.countdown span, .countdown .small { font-size: .75rem; }
+.kpi { margin-top: 24px; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.kpi > .card { position: relative; padding: 22px 20px; box-shadow: none; }
+.stat-icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: var(--primary-soft); border-radius: 9px; color: var(--primary); margin-bottom: 14px; }
+.kpi > .card:nth-child(2) .stat-icon { background: var(--accent-soft); color: var(--accent); }
+.kpi > .card:nth-child(3) .stat-icon { background: var(--c3-soft); color: var(--c3); }
+.kpi > .card:nth-child(4) .stat-icon { background: var(--info-soft); color: var(--info); }
+.stat .num { font-size: 2rem; letter-spacing: -.05em; font-weight: 650; }
+.stat .lbl { font-size: .75rem; margin-block: 6px 14px; }
+.kpi .small { font-size: .75rem; line-height: 1.65; }
+.kpi .meter-top { font-size: .75rem; }
+.kpi .streak { gap: 5px; }
+.kpi .streak .dot { border-radius: 7px; }
+.kpi .btn { font-size: .75rem; }
+.bar { height: 6px; }
+.progress-help { margin-top: 12px; }
+.progress-help summary { font-size: .75rem; }
+.section-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 32px 0 20px; }
+.section-heading h2 { font-size: 1.35rem; margin: 0 0 6px; }
+.section-heading p:last-child { margin: 0; font-size: .8rem; }
+.section-link { display: inline-flex; align-items: center; gap: 8px; font-size: .8rem; font-weight: 600; white-space: nowrap; min-height: 44px; }
+.lecture-section .grid { gap: 16px; }
+.lec-card { display: flex; flex-direction: column; padding: 22px 20px; box-shadow: none; transition: border-color .2s, box-shadow .2s; }
+.lec-card:hover { border-color: var(--primary-line); box-shadow: var(--shadow); }
+.lec-card > .row:first-child { margin-bottom: 12px; }
+.lecture-icon { display: grid; place-items: center; color: var(--primary); background: var(--primary-soft); border-radius: 10px; width: 36px; height: 36px; }
+.lec-card:nth-child(2) .lecture-icon { color: var(--accent); background: var(--accent-soft); }
+.lec-card:nth-child(3) .lecture-icon { color: var(--c3); background: var(--c3-soft); }
+.lec-card:nth-child(4) .lecture-icon { color: var(--info); background: var(--info-soft); }
+.lec-card h3 { font-size: 1rem; line-height: 1.45; min-height: 4.35em; }
+.lec-card > p { font-size: .75rem; margin-bottom: 24px; }
+.lec-card .meter { margin-top: auto; }
+.lec-card .meter-top { font-size: .75rem; }
+.lec-card > .row:last-child { padding-top: 14px; margin-top: 18px !important; border-top: 1px solid var(--border); gap: 4px; }
+.lec-card .btn { font-size: .75rem; padding-inline: 9px; }
+.review-grid { margin-top: 24px; gap: 16px; }
+.review-grid .card { box-shadow: none; }
+.review-grid p, .review-grid li { font-size: .83rem; line-height: 1.8; }
+.dashboard-foot { margin-top: 24px; }
+.dashboard-foot .card { background: transparent; box-shadow: none; border-style: dashed; }
+@media (max-width: 1200px) and (min-width: 901px) {
+  .kpi { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .course-stamp { display: none; }
+  .hero-aside { align-items: flex-start; }
+  .hero-aside .countdown { width: auto; min-width: 160px; }
+  .dashboard .hero { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 900px) { .kpi { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) {
+  .dashboard-heading { align-items: flex-start; gap: 8px; margin-bottom: 20px; }
+  .dashboard-heading .eyebrow { font-size: .75rem; max-width: 24ch; }
+  .dashboard-welcome { font-size: 1.15rem; }
+  .offline-pill { font-size: .75rem; padding: 5px 8px; }
+  .dashboard .hero { grid-template-columns: minmax(0, 1fr); padding: 24px; border-radius: 16px; }
+  .hero-aside { align-items: stretch; gap: 0; }
+  .course-stamp { display: none; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-secondary { gap: 16px; }
+  .hero-secondary a { min-height: 44px; }
+  .kpi { gap: 12px; margin-top: 16px; }
+  .kpi > .card { padding: 16px; }
+  .stat .num { font-size: 1.8rem; }
+  .kpi .stat .lbl { margin-bottom: 10px; }
+  .section-heading { align-items: flex-start; }
+  .section-heading h2 { font-size: 1.2rem; }
+  .section-link { font-size: .75rem; }
+  .lecture-section .grid { grid-template-columns: minmax(0, 1fr); }
+  .lec-card h3 { min-height: 0; }
+  .lec-card .btn { flex: 1; min-height: 44px; }
+  .lec-card > p { margin-bottom: 16px; }
+}
+
+/* Reading, practice, and supporting tools share the same spacing and states. */
+.lesson-layout { gap: 32px; }
+.toc { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; scrollbar-width: thin; }
+.toc h3 { font-size: .75rem; letter-spacing: .1em; margin: 16px 8px 8px; }
+.toc a { padding: 10px; margin-block: 2px; font-size: .8rem; line-height: 1.5; }
+.lesson { line-height: 1.85; }
+.lesson h2 { margin-top: 32px; }
+.lesson .summary { padding: 20px 24px; font-size: 1rem; }
+.term { padding: 16px 20px; }
+.term-list { gap: 12px; }
+.note, .formula { border-radius: 12px; }
+.table-wrap { border-radius: 12px; }
+th { font-size: .78rem; letter-spacing: .015em; }
+td { font-size: .9rem; }
+.qcard { border-radius: 20px; padding: clamp(20px, 3vw, 36px); box-shadow: var(--shadow); }
+.qcard .prompt { font-size: 1.2rem; line-height: 1.7; margin-block: 24px; }
+.qcard .qmeta { gap: 8px; }
+.opt { border-radius: 12px; padding: 16px; transition: background-color .18s, border-color .18s; }
+.feedback { border-radius: 12px; padding: 20px; }
+.answer-row input { min-height: 50px; }
+input[type="text"], input[type="number"], input[type="date"], select, textarea { border-radius: 9px; }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline-color: var(--primary); }
+fieldset { padding: 16px; background: var(--surface); }
+legend { font-size: .8rem; }
+.filters { gap: 16px; align-items: stretch; }
+.filters .check { display: flex; align-items: flex-start; padding-block: 8px; min-height: 44px; font-size: .85rem; line-height: 1.5; }
+.filters .check input { flex: none; margin-top: 2px; }
+details.more > summary { min-height: 44px; padding-block: 10px; }
+.seg { border-radius: 10px; }
+.seg button { min-height: 44px; font-size: .8rem; }
+.tabs { gap: 8px; }
+.tab { font-size: .875rem; }
+.flashcard { min-height: 320px; padding: 32px; border-radius: 20px; background: linear-gradient(145deg, var(--surface), var(--primary-soft)); }
+.flashcard .side-label { color: var(--primary); font-size: .75rem; letter-spacing: .14em; }
+.flashcard .face { max-width: 54ch; margin-inline: auto; line-height: 1.7; }
+.flashcard .face.term { font-size: 1.8rem; letter-spacing: -.04em; }
+.ratings { gap: 12px; }
+.ratings .btn { min-height: 64px; }
+.recall-card { padding: 36px; box-shadow: var(--shadow); }
+.recall-card .prompt { line-height: 1.75; }
+.recall-card .model { padding: 24px; }
+.palette { padding: 20px; }
+.palette .cells { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 8px; }
+.palette .cell { height: 44px; }
+.cal-day { min-height: 92px; padding: 10px; transition: background-color .18s, border-color .18s; }
+.cal-day.today { box-shadow: inset 0 0 0 1px var(--accent); }
+.task { padding: 12px 0; }
+.task .check { min-height: 44px; }
+.chip { font-size: .75rem; padding: 3px 8px; }
+.src-ref { line-height: 1.8; }
+button, a, input, select, textarea, summary { touch-action: manipulation; }
+:focus-visible { outline-width: 3px; outline-offset: 3px; }
+.btn[disabled]:hover { border-color: var(--border-strong); }
+/* Long formulas, saved answers and large text must not widen the viewport. */
+.card, .field, .stat, .hero-copy, .hero-aside { min-width: 0; }
+.prompt, .face, .canon, .term, .lesson, .page-head, .lec-card h3 { overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .qcard .prompt { font-size: 1.08rem; }
+  .flashcard { padding: 24px; min-height: 280px; }
+  .recall-card { padding: 24px; }
+  .recall-card .model { padding: 16px; }
+  .filters { grid-template-columns: minmax(0, 1fr); }
+  .seg { display: flex; }
+  .seg button { flex: 1 1 100%; text-align: left; }
+  .seg button + button { border-left: 0; border-top: 1px solid var(--border); }
+  .cal-grid { gap: 4px; }
+  .cal-day { min-height: 64px; padding: 4px; }
+  .cal-day .marks { gap: 2px; }
+  .ratings { gap: 8px; }
+  .btn.sm, .check { min-height: 44px; }
+  .toc a { min-height: 44px; }
+  input[type="search"], select, textarea { font-size: 1rem; }
+}
+@media (prefers-contrast: more) { :root { --border: var(--border-strong); } .btn { border-width: 2px; } }
+@media print {
+  .hero, .flashcard { background: #fff !important; color: #000; }
+  .hero .muted, .hero .eyebrow { color: #333; }
+  .toc, .hero-aside, .hero-actions, .hero-secondary { display: none; }
 }
 
 </style>
@@ -3994,6 +4274,7 @@ const Shell = (function () {
     app.appendChild(top);
     app.appendChild(h('div.layout', null, side, h('main', { id: 'main', tabindex: '-1' })));
     app.appendChild(bottom);
+    syncDrawer();
     setupSearch(search, results);
     document.addEventListener('focusin', e => { if (e.target.matches('input[type=text], input:not([type]), textarea, input[type=search], input[type=number]') && innerWidth < 900) document.body.classList.add('typing'); });
     document.addEventListener('focusout', () => setTimeout(() => { if (!document.activeElement || !document.activeElement.matches('input, textarea')) document.body.classList.remove('typing'); }, 50));
@@ -4001,12 +4282,31 @@ const Shell = (function () {
 
   function toggleDrawer(open) {
     const sb = $('#sidebar'), mb = $('#menu-btn'); if (!sb) return;
-    if (innerWidth >= 900) return;
+    if (innerWidth > 900) open = false;
     sb.classList.toggle('open', open); mb.setAttribute('aria-expanded', String(open));
+    sb.inert = innerWidth <= 900 && !open;
     let scrim = $('.scrim');
     if (open && !scrim) { scrim = h('div.scrim', { on: { click: () => toggleDrawer(false) } }); document.body.appendChild(scrim); const f = $('.nav-link', sb); if (f) f.focus(); }
-    if (!open && scrim) { scrim.remove(); }
+    if (!open && scrim) { scrim.remove(); if (innerWidth <= 900 && sb.contains(document.activeElement)) mb.focus(); }
   }
+
+  function syncDrawer() {
+    const sb = $('#sidebar'); if (!sb) return;
+    if (innerWidth > 900) toggleDrawer(false);
+    else sb.inert = !sb.classList.contains('open');
+  }
+
+  // Keep keyboard focus inside the mobile navigation until it closes.
+  document.addEventListener('keydown', e => {
+    const sb = $('#sidebar');
+    if (!sb || !sb.classList.contains('open') || innerWidth > 900) return;
+    if (e.key === 'Escape') { e.preventDefault(); toggleDrawer(false); $('#menu-btn').focus(); }
+    if (e.key === 'Tab') {
+      const links = $$('.nav-link', sb), first = links[0], last = links[links.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
 
   function route() {
     const hash = location.hash.replace(/^#\/?/, '');
@@ -4206,7 +4506,7 @@ const Shell = (function () {
     Store.on(kind => { if (kind === 'error') toast(Store.error, 'bad'); updateBadges(); });
     addEventListener('hashchange', route);
     addEventListener('storage', e => { if (e.key === STORE_KEY) { Store.reloadFromStorage(); if (!['exam', 'ident', 'mcq', 'flash', 'recall'].includes(currentName)) rerender(); } });
-    addEventListener('resize', () => { if (innerWidth >= 900) toggleDrawer(false); });
+    addEventListener('resize', syncDrawer);
     setInterval(() => { const d = Core.dateKey(); if (d !== lastDay) { lastDay = d; Store.save(); if (['dashboard', 'calendar'].includes(currentName)) rerender(); } }, 30000);
     addEventListener('beforeunload', () => Store.saveNow());
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') Store.saveNow(); });
@@ -4245,20 +4545,27 @@ Views.dashboard = {
     let countdown;
     if (s.examDate) { const n = Core.daysBetween(c.today, s.examDate); countdown = h('div.countdown', null, h('b', null, n >= 0 ? String(n) : '—'), h('span.small', null, n > 1 ? 'days to your exam' : n === 1 ? 'day to your exam' : n === 0 ? 'Exam day — good luck!' : 'Exam date has passed'), h('div.small.muted', null, fmtDate(s.examDate))); }
     else countdown = h('button.btn.accent', { on: { click: () => Shell.openSettings() } }, icon('calendar', 18), 'Set exam date');
-    const hero = h('section.card.hero', { 'aria-labelledby': 'hero-h' }, h('div.topo', { html: TOPO_SVG }),
-      h('div', null, h('h1', { id: 'hero-h' }, greet + '.'), h('p.muted', null, 'An identification-first reviewer for Lectures 9–13: read a definition, clue, formula or diagram and recall the exact term.'),
-        h('div.row', null, h('a.btn.primary', { href: '#/ident' }, icon('target', 18), 'Identification practice'), h('a.btn', { href: '#/exam/preset/strict' }, icon('clock', 18), 'Strict identification exam'), h('a.btn', { href: '#/flash' }, icon('cards', 18), c.due ? `Review ${c.due} due card${c.due > 1 ? 's' : ''}` : 'Flashcards'), h('a.btn.ghost', { href: '#/recall' }, icon('brain', 18), 'Recall mode'))),
-      countdown);
+    const heading = h('div.dashboard-heading', null,
+      h('div', null, h('p.eyebrow', null, 'REMOTE SENSING / FINALS REVIEWER'), h('p.dashboard-welcome', null, 'Your study overview')),
+      h('span.offline-pill', null, icon('check', 14), 'Offline ready'));
+    const hero = h('section.card.hero', { 'aria-labelledby': 'hero-h' }, h('div.topo', { html: TOPO_SVG, 'aria-hidden': 'true' }),
+      h('div.hero-copy', null, h('p.eyebrow', null, 'A LITTLE FOCUS. A CLEARER PICTURE.'),
+        h('h1', { id: 'hero-h' }, greet + '.', h('br'), 'Let’s make it stick.'),
+        h('p.muted', null, 'Read the clue. Recall the term. Build your confidence for Remote Sensing Lectures 9–13, one concept at a time.'),
+        h('div.hero-actions', null, h('a.btn.primary', { href: '#/ident' }, icon('target', 18), 'Identification practice', icon('arrowR', 18)), h('a.btn', { href: '#/exam/preset/strict' }, icon('clock', 18), 'Strict identification exam')),
+        h('div.hero-secondary', null, h('a', { href: '#/flash' }, icon('cards', 16), c.due ? `Review ${c.due} due card${c.due > 1 ? 's' : ''}` : 'Study flashcards'), h('a', { href: '#/recall' }, icon('brain', 16), 'Recall mode'))),
+      h('div.hero-aside', null, h('div.course-stamp', { 'aria-hidden': 'true' }, icon('layers', 34), h('span', null, 'READ · RECALL · REPEAT')), countdown));
     const goal = s.goal || 20;
     const kpi = h('section.kpi', { 'aria-label': 'Progress summary' },
       h('div.card', null, h('div.stat', null, h('span.num', null, pct(c.mastered, total) + '%'), h('span.lbl', null, 'Course progress (mastery)')), meter('Concepts mastered', c.mastered, total), h('p.small.muted', { style: { margin: '.4rem 0 0' } }, `${c.learning} learning · ${total - c.mastered - c.learning} not started`)),
       h('div.card', null, h('div.stat', null, h('span.num', null, String(c.todayCount)), h('span.lbl', null, 'Completed today')), meter('Daily goal', Math.min(c.todayCount, goal), goal, { accent: true, text: `${c.todayCount} / ${goal}` }), h('p.small.muted', { style: { margin: '.4rem 0 0' } }, c.todayCount >= goal ? 'Goal met — nice work.' : `${goal - c.todayCount} to go.`)),
       h('div.card', null, h('div.stat', null, h('span.num', null, String(c.due)), h('span.lbl', null, 'Flashcard reviews due')), h('p.small.muted', null, 'Cards scheduled for today or earlier.'), h('a.btn.sm' + (c.due ? '.primary' : ''), { href: '#/flash' }, c.due ? 'Review now' : 'Start new cards')),
       h('div.card', null, h('div.row', null, h('div.stat', null, h('span.num', null, String(c.streak.current)), h('span.lbl', null, 'Day streak')), h('span.spacer', { style: { flex: 1 } }), h('div.stat', { style: { textAlign: 'right' } }, h('span.num', { style: { fontSize: '1.2rem' } }, String(c.streak.longest)), h('span.lbl', null, 'Longest'))), streakBar(c), h('p.small.muted', { style: { margin: 0 } }, c.streak.todayDone ? 'Today counts as a study day.' : `Complete ${Math.max(0, Core.STUDY_DAY_MIN - c.todayCount)} more item(s) today to extend the streak.`)));
-    const lecs = h('section', { 'aria-labelledby': 'lec-h' }, h('h2', { id: 'lec-h', style: { marginTop: '1.4rem' } }, 'Per-lecture progress'),
+    const lecs = h('section.lecture-section', { 'aria-labelledby': 'lec-h' },
+      h('div.section-heading', null, h('div', null, h('p.eyebrow', null, 'YOUR LEARNING PATH'), h('h2', { id: 'lec-h' }, 'Explore the lectures'), h('p.muted.small', null, 'Pick up a topic, practice your recall, or test what you know.')), h('a.section-link', { href: '#/lessons' }, 'All lessons', icon('arrowR', 16))),
       h('div.grid.four', null, DATA.lectures.map(l => {
         const L = c.lec[l.id];
-        return h('div.card.lec-card', null, h('div.row', null, lecChip(l.id), h('span.small.muted', null, `${L.concepts} concepts`)), h('h3', { style: { margin: '.5rem 0' } }, l.title),
+        return h('div.card.lec-card', { 'data-lecture': l.id }, h('div.row', null, lecChip(l.id), h('span.lecture-icon', { 'aria-hidden': 'true' }, icon('layers', 20))), h('h3', { style: { margin: '.5rem 0' } }, l.title), h('p.small.muted', null, `${L.concepts} concepts to explore`),
           meter('Mastered', L.mastered, L.concepts), h('div.meter-top', { style: { marginTop: '.5rem' } }, h('span', null, 'Accuracy'), h('b', null, L.attempts ? pct(L.correct, L.attempts) + '% of ' + L.attempts : 'no answers yet')),
           h('div.row', { style: { marginTop: '.7rem' } }, h('a.btn.sm', { href: '#/lessons/' + Model.topicsOf(l.id)[0].id }, 'Lessons'), h('a.btn.sm', { href: '#/ident/lec/' + l.id }, 'Identify'), h('a.btn.sm.ghost', { href: '#/exam/lec/' + l.id }, 'Exam')));
       })));
@@ -4272,7 +4579,9 @@ Views.dashboard = {
     const last = st.lastLesson && Model.topic(st.lastLesson);
     const cont = last ? h('div.card.soft', null, h('div.row', null, icon('book'), h('span', null, 'Continue reading: ', h('a', { href: '#/lessons/' + last.id }, last.title)))) : null;
     const counts = h('div.card.soft', null, h('p.small', { style: { margin: 0 } }, `Bank: ${DATA.concepts.length} concepts · ${Model.questions.filter(q => q.type === 'ident').length} identification items (${DATA.questions.filter(q => q.type === 'ident').length} hand-written + ${DATA.concepts.length} definition items) · ${DATA.questions.filter(q => q.type === 'mcq').length} multiple-choice · ${DATA.recall.length + DATA.formulas.length} recall prompts · ${DATA.concepts.length * 2} flashcard faces. `, h('a', { href: '#/coverage' }, 'Coverage report')), c.overrides ? h('p.small.muted', { style: { margin: '.3rem 0 0' } }, `${c.overrides} answer(s) self-credited — see Mistakes & Bookmarks.`) : null);
-    main.appendChild(h('div.page', null, hero, h('div', { style: { height: '1rem' } }), kpi, h('div', { style: { marginTop: '1rem' } }, masteryExplainer()), lecs, h('div.grid.two', { style: { marginTop: '1.2rem' } }, weak, missed), h('div.stack', { style: { marginTop: '1rem' } }, cont, counts)));
+    const statIcons = ['target', 'check', 'cards', 'fire'];
+    Array.from(kpi.children).forEach((card, i) => card.prepend(h('span.stat-icon', { 'aria-hidden': 'true' }, icon(statIcons[i], 18))));
+    main.appendChild(h('div.page.dashboard', null, heading, hero, kpi, h('div.progress-help', null, masteryExplainer()), lecs, h('div.grid.two.review-grid', null, weak, missed), h('div.stack.dashboard-foot', null, cont, counts)));
   }
 };
 
